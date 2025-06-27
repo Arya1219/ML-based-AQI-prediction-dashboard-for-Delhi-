@@ -1,17 +1,12 @@
-import streamlit as st
-import pandas as pd
-import requests
-import io
+!pip install gdown
+import gdown
+
+file_id = "1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
+gdown.download(f"https://drive.google.com/uc?id={file_id}", "aqi_model.pkl", quiet=False)
 import joblib
 
-@st.cache_resource
-def load_model_from_drive():
-    url = "https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
-    response = requests.get(url)
-    model = joblib.load(io.BytesIO(response.content))
-    return model
-
-model = load_model_from_drive()
+model = joblib.load("aqi_model.pkl")
+print(" Model loaded successfully!")
 
 import streamlit as st
 import joblib
