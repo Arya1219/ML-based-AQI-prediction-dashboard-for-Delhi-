@@ -22,41 +22,62 @@ Delhi is known to experience hazardous levels of air pollution. Real-time AQI pr
 - Matplotlib/Seaborn (for EDA and feature importance — used in Jupyter Notebook)
 - Jupyter Notebook (for training, evaluation, and experimentation)
 
- Folder Structure
-.devcontainer
-delhi_project_clean : aqi_app.py ,requirements.txt
-project1.ipynb
+ # Delhi AQI Prediction Dashboard
+
+A machine learning-powered web app that predicts **Air Quality Index (AQI)** in Delhi using real-time pollutant levels and time-based factors. Built with a Random Forest model and deployed via Streamlit for interactive access.
+
+---
+
+## 📁 Folder Structure
+
+├── .devcontainer/ # Development container settings (optional)
+├── delhi_project_clean/
+│ ├── aqi_app.py # Streamlit app file
+│ ├── requirements.txt # Python dependencies
+│ └── project1.ipynb # Model training and EDA notebook
 
 
-🌐 ## **Hosted Web App**
+---
+
+## 🌐 Hosted Web App
 
 The application is publicly available at:
-https://delhiaqipredictor.streamlit.app/
 
+👉 **[https://delhiaqipredictor.streamlit.app/](https://delhiaqipredictor.streamlit.app/)**
 
+---
 
-## **Model Performance**
+##  Model Performance
 
-Final model: Random Forest Regressor with engineered time-based features.
-Mean Absolute Error (MAE): ~36.30
-R² Score: ~0.83
-Performance improved after adding temporal context (hour, month, weekend).
+Final model: **Random Forest Regressor** with engineered time-based features  
+- **Mean Absolute Error (MAE)**: ~36.30  
+- **R² Score**: ~0.83  
 
-👨‍💻 ## **Author**
-Arya Giri
-Sophomore,
-Indian Institute of Technology (BHU), Varanasi
+✔️ Performance significantly improved after including features like:
+- Hour of the day  
+- Month of the year  
+- Day of the week  
+- Weekend indicator  
 
-Email: iriarya72@gmail.com]
-GitHub: https://github.com/Arya1219
+---
 
+##  Model Hosting
 
-## Model Hosting
+Due to GitHub's 100MB file limit, the trained `.pkl` model (~315MB) is hosted on **Google Drive** and fetched at runtime using `gdown`.
 
-Since GitHub restricts file sizes to 100MB, the `.pkl` file (approx. 315MB) is hosted on **Google Drive** and downloaded programmatically at runtime.
+Add this to your code to load the model:
 
 ```python
 import gdown
-gdown.download("https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj", "aqi_model.pkl", quiet=False)
 
-
+# Download model from Google Drive
+gdown.download(
+    "https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj",
+    "aqi_model.pkl",
+    quiet=False
+)
+👨‍💻 Author
+Arya Giri
+Sophomore, Indian Institute of Technology (BHU), Varanasi
+📧 Email: iriarya72@gmail.com
+🔗 GitHub: Arya1219
