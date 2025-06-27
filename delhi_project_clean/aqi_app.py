@@ -1,43 +1,31 @@
 import streamlit as st
-import requests
-import io
 import joblib
+import numpy as np
+import gdown
+import os
 
+# ==================== Load model from Google Drive ====================
 @st.cache_resource
 def load_model_from_drive():
     file_id = "1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
-    download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+    model_path = "aqi_model.pkl"
+    
+    if not os.path.exists(model_path):
+        gdown.download(f"https://drive.google.com/uc?id={file_id}", model_path, quiet=False)
 
-    session = requests.Session()
-    response = session.get(download_url, stream=True)
+    return joblib.load(model_path)
 
-    # Handle potential confirmation page
-    for key, value in response.cookies.items():
-        if key.startswith("download_warning"):
-            download_url = f"https://drive.google.com/uc?export=download&confirm={value}&id={file_id}"
-            response = session.get(download_url, stream=True)
-
-    model = joblib.load(io.BytesIO(response.content))
-    return model
-
+# Load model
 model = load_model_from_drive()
 
-import streamlit as st
-import joblib
-import numpy as np
-from PIL import Image
-
-
-model = joblib.load("aqi_model.pkl")
-
-
+# ==================== Streamlit Page Config ====================
 st.set_page_config(
     page_title="Delhi AQI Predictor",
     page_icon="🌫️",
     layout="centered"
 )
 
-# ====== Custom Banner / Header ======
+# ==================== Header ====================
 st.markdown("""
     <div style='text-align: center;'>
         <h1 style='color: #1f77b4;'>🌫️ Delhi Air Quality Index Predictor</h1>
@@ -47,25 +35,25 @@ st.markdown("""
 
 st.markdown("---")
 
-# ====== Input Fields in Columns ======
+# ==================== Input Fields ====================
 col1, col2 = st.columns(2)
 
 with col1:
-    pm25 = st.number_input(" PM2.5 (µg/m³)", min_value=0.0, step=1.0)
-    no = st.number_input(" NO (µg/m³)", min_value=0.0, step=1.0)
-    benzene = st.number_input("🧪 Benzene (µg/m³)", min_value=0.0, step=0.1)
-    hour = st.slider(" Hour of Day", 0, 23)
+    pm25 = st.number_input("PM2.5 (µg/m³)", min_value=0.0, step=1.0)
+    no = st.number_input("NO (µg/m³)", min_value=0.0, step=1.0)
+    benzene = st.number_input(" Benzene (µg/m³)", min_value=0.0, step=0.1)
+    hour = st.slider("Hour of Day", 0, 23)
 
 with col2:
-    pm10 = st.number_input(" PM10 (µg/m³)", min_value=0.0, step=1.0)
-    no2 = st.number_input(" NO2 (µg/m³)", min_value=0.0, step=1.0)
+    pm10 = st.number_input("PM10 (µg/m³)", min_value=0.0, step=1.0)
+    no2 = st.number_input("NO2 (µg/m³)", min_value=0.0, step=1.0)
     month = st.slider("Month", 1, 12)
-    dayofweek = st.slider(" Day of Week (0 = Mon)", 0, 6)
+    dayofweek = st.slider("Day of Week (0 = Mon)", 0, 6)
 
-is_weekend = st.radio(" Is it a weekend?", [0, 1], horizontal=True)
+is_weekend = st.radio("Is it a weekend?", [0, 1], horizontal=True)
 
-# ====== Predict Button ======
-if st.button(" Predict AQI"):
+# ==================== Predict Button ====================
+if st.button("🔍 Predict AQI"):
     input_data = np.array([[pm25, pm10, no, no2, benzene, hour, month, dayofweek, is_weekend]])
     prediction = model.predict(input_data)[0]
     rounded_prediction = round(prediction, 2)
@@ -77,7 +65,7 @@ if st.button(" Predict AQI"):
     </div>
     """, unsafe_allow_html=True)
 
-    # AQI Category (Optional)
+    # AQI Category
     if rounded_prediction <= 50:
         category = "Good 😊"
         color = "#2ecc71"
@@ -103,5 +91,6 @@ if st.button(" Predict AQI"):
         </div>
     """, unsafe_allow_html=True)
 
+# ==================== Footer ====================
 st.markdown("---")
-st.caption("🔧 Built by Arya Giri | IIT BHU sophomore")
+st.caption("🔧 Built by Arya Giri | Sophomore, IIT BHU")
