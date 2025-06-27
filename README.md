@@ -79,5 +79,5 @@ gdown.download(
 👨‍💻 Author
 Arya Giri
 Sophomore, Indian Institute of Technology (BHU), Varanasi
-📧 Email: iriarya72@gmail.com
+📧 Email: giriarya72@gmail.com
 🔗 GitHub: Arya1219
