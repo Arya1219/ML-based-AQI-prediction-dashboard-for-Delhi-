@@ -1,3 +1,15 @@
+import requests
+import io
+import joblib
+
+@st.cache_resource
+def load_model_from_drive():
+    url = "https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
+    response = requests.get(url)
+    model = joblib.load(io.BytesIO(response.content))
+    return model
+
+model = load_model_from_drive()
 import streamlit as st
 import joblib
 import numpy as np
