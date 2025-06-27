@@ -1,3 +1,5 @@
+import streamlit as st
+import pandas as pd
 import requests
 import io
 import joblib
@@ -10,15 +12,16 @@ def load_model_from_drive():
     return model
 
 model = load_model_from_drive()
+
 import streamlit as st
 import joblib
 import numpy as np
 from PIL import Image
 
-# ====== Load the trained model ======
+
 model = joblib.load("aqi_model.pkl")
 
-# ====== Page Configuration ======
+
 st.set_page_config(
     page_title="Delhi AQI Predictor",
     page_icon="🌫️",
