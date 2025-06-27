@@ -28,17 +28,7 @@ delhi_project_clean : aqi_app.py ,requirements.txt
 project1.ipynb
 
 
-## Model Hosting
-
-Since GitHub restricts file sizes to 100MB, the `.pkl` file (approx. 315MB) is hosted on **Google Drive** and downloaded programmatically at runtime.
-
-```python
-import gdown
-gdown.download("https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj", "aqi_model.pkl", quiet=False)
-
-
-
-🌐 **Hosted Web App**
+🌐  Hosted Web App
 The application is publicly available at:
 https://delhiaqipredictor.streamlit.app/
 
@@ -55,4 +45,14 @@ Sophomore, B.Tech Biomedical Engineering
 Indian Institute of Technology (BHU), Varanasi
 Email: iriarya72@gmail.com]
 GitHub: https://github.com/Arya1219
+
+
+## Model Hosting
+
+Since GitHub restricts file sizes to 100MB, the `.pkl` file (approx. 315MB) is hosted on **Google Drive** and downloaded programmatically at runtime.
+
+```python
+import gdown
+gdown.download("https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj", "aqi_model.pkl", quiet=False)
+
 
