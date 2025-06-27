@@ -1,10 +1,26 @@
-import gdown
-file_id = "1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
-gdown.download(f"https://drive.google.com/uc?id={file_id}", "aqi_model.pkl", quiet=False)
+import streamlit as st
+import requests
+import io
 import joblib
 
-model = joblib.load("aqi_model.pkl")
-print(" Model loaded successfully!")
+@st.cache_resource
+def load_model_from_drive():
+    file_id = "1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj"
+    download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+    session = requests.Session()
+    response = session.get(download_url, stream=True)
+
+    # Handle potential confirmation page
+    for key, value in response.cookies.items():
+        if key.startswith("download_warning"):
+            download_url = f"https://drive.google.com/uc?export=download&confirm={value}&id={file_id}"
+            response = session.get(download_url, stream=True)
+
+    model = joblib.load(io.BytesIO(response.content))
+    return model
+
+model = load_model_from_drive()
 
 import streamlit as st
 import joblib
