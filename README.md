@@ -36,4 +36,21 @@ Since GitHub restricts file sizes to 100MB, the `.pkl` file (approx. 315MB) is h
 import gdown
 gdown.download("https://drive.google.com/uc?id=1h5ruo8AJjFx3-XqJ2tt0LZmPN1CVl5lj", "aqi_model.pkl", quiet=False)
 
+🌐 Hosted Web App
+The application is publicly available at:
+https://delhiaqipredictor.streamlit.app/
+
+##Model Performance
+
+Final model: Random Forest Regressor with engineered time-based features.
+Mean Absolute Error (MAE): ~36.30
+R² Score: ~0.83
+Performance improved after adding temporal context (hour, month, weekend).
+
+👨‍💻 Author
+Arya Giri
+Sophomore, B.Tech Biomedical Engineering
+Indian Institute of Technology (BHU), Varanasi
+Email: iriarya72@gmail.com]
+GitHub: https://github.com/Arya1219
 
